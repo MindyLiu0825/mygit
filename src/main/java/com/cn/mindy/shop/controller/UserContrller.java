@@ -345,5 +345,11 @@ public class UserContrller {
                 new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
     }
 
+    @RequestMapping("/hello")
+    public void test(){
+
+        System.out.println("hello....");
+    }
+
 
 }
