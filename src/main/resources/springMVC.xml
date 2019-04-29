@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+		
+		
+		  <!--
+		       注解方式启动注解的映射器和适配器
+		       　将validator注册到适配器中s
+		   -->
+          <mvc:annotation-driven validator="validator"></mvc:annotation-driven>
+         
+          <!-- 注解方式开发 启动组件包扫描器 -->
+           <!-- 一、1.2 启动类扫描器 @Component @Respository @Service @Controller -->
+		  <context:component-scan base-package="com.cn.mindy.shop.pojo"/>
+		  <context:component-scan base-package="com.cn.mindy.shop.mapper"/>
+		  <context:component-scan base-package="com.cn.mindy.shop.service"/>
+		  <context:component-scan base-package="com.cn.mindy.shop.controller"/>
+		                                        
+         
+         <!-- 配置静态资源文件  -->
+         <mvc:resources mapping="/images/**" location="/images/" />
+		 <mvc:resources mapping="/js/**" location="/js/" />
+		 <mvc:resources mapping="/css/**" location="/css/" />
+	  
+	
+	     <!-- 配置全局的拦截器  -->
+         <mvc:interceptors>
+
+             <!-- 用户认证拦截器  -->
+             <mvc:interceptor>
+                 <mvc:mapping path="/**"/>
+                 <bean class="com.cn.mindy.shop.intercepter.LoginInterceptor"></bean>
+             </mvc:interceptor>
+
+             <!--用户授权拦截器-->
+             <mvc:interceptor>
+                 <mvc:mapping path="/**"/>
+                 <bean class="com.cn.mindy.shop.intercepter.PermissionInterceptor"></bean>
+             </mvc:interceptor>
+
+         </mvc:interceptors>
+
+      
+        <!--  配置校验器  -->
+         <bean id="validator"
+              class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+                <!-- 使用hibernate校验器 -->
+                <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+                <!--指定校验器使用的资源文件路径
+                如果不设置则默认为classpath下的ValidationMessages.properties -->
+                <property name="validationMessageSource" ref="messageSource"/>
+          </bean>
+          <!--  校验错误信息资源文件 -->
+          <bean id="messageSource" name="messageSource"
+                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+                <!--  资源文件名字 -->
+               <property name="basenames">
+                    <list>
+                    <value>classpath:ValidationMessages</value>
+                    </list>
+                </property>
+
+                <!-- 资源文件编码格式 -->
+                <property name="fileEncodings" value="utf-8"></property>
+
+                <property name="useCodeAsDefaultMessage" value="true"/>
+
+                 <!--  对资源文件的缓存时间,单位秒 -->
+                <property name="cacheSeconds" value="120"></property>
+            </bean>
+
+
+        <!-- 图片上传解析器-->
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+            <property name="defaultEncoding" value="UTF-8" />
+
+            <!-- 最大文件大小，-1为不限制大小 -->
+            <property name="maxUploadSize" value="5242880"/>
+
+            <!-- 最大内存大小 -->
+            <property name="maxInMemorySize" value="10240100"/>
+
+        </bean>
+
+
+
+         <!--  4 视图解析器  ViewResoulver -->
+	     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    
+	        <property name="prefix" value="/WEB-INF/jsp/"></property>
+	        <property name="suffix" value=".jsp"></property>
+	     </bean>
+
+
+</beans>

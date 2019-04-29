@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+
+       <!-- 1 配置数据库连接信息文件 
+          <properties resource="db.properties"></properties>
+
+	  -->
+	   <!-- 1 全局的setting配置
+	      <settings> </settings>
+	    -->
+	  
+	   <!-- 2 别名配置 扫描 -->
+	   <typeAliases>
+	   
+	       <package name="com.cn.mindy.shop.pojo"/>
+	       
+	   </typeAliases>
+	   
+	   
+	   
+	   
+	   <!-- 3 配置数据源 
+	   
+	   <environments default="dataSource_MySql">
+	   
+	   
+	      <environment id="dataSource_MySql">
+	      	      
+	        <transactionManager type="JDBC"/>
+	         
+	        <dataSource type="POOLED">
+	            <property name="driver" value="${DRIVERNAME_MYSQL}"/>
+	            <property name="url" value="${URL_MYSQL}"/>
+	            <property name="username" value="${USER_MYSQL}"/>
+	            <property name="password" value="${PASSWORD_MYSQL}"/>
+	        </dataSource>
+	        	        
+	      </environment>
+	   
+	   
+	   
+	      <environment id="dataSource_Oracle">
+	      
+	        <transactionManager type="JDBC"/>
+	         
+	        <dataSource type="POOLED">
+	            <property name="driver" value="${DRIVERNAME_ORACLE}"/>
+	            <property name="url" value="${URL_ORACLE}"/>
+	            <property name="username" value="${USER_ORACLE}"/>
+	            <property name="password" value="${PASSWORD_ORACLE}"/>
+	        </dataSource>
+	        
+	      </environment>
+	   </environments>
+	   -->
+	   
+	   <!--  4 mybatis mapper文件扫描 
+		  <mappers>
+		  
+		    <package name="com.cn.mindy.shop.mapper"/>
+		   
+		  </mappers>
+	    -->
+</configuration>
